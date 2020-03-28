@@ -1,0 +1,13 @@
+.invalid-feedback{
+    display: block !important;
+}
+
+.card-body{
+    position: relative;
+}
+#loading{
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 30%;
+}
