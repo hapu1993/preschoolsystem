@@ -26,7 +26,7 @@ class HomeController extends Controller
     {
         if(Auth::user()->role == 2){
             $page_title = 'View Attendence';
-            return view('teacher-view',compact($page_title,'page_title'));
+            return view('teacher-view',compact('page_title'));
         }
         return view('home');
     }

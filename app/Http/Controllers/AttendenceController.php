@@ -18,7 +18,7 @@ class AttendenceController extends Controller
     {
         $page_title = 'Record Attendence';
         $students = Student::where('class_id',Auth::user()->teacherClass->class_id)->get();
-        return view('record-attendence',compact($students,'students',$page_title,'page_title'));
+        return view('record-attendence',compact('students','page_title'));
     }
 
     public function store(absentCreateValidationRequest $request)
@@ -59,9 +59,27 @@ class AttendenceController extends Controller
             $reg_no = request()->reg_no;
             $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
             $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
-            $data = Attendence::with('student')->whereHas('student', function($q) use ($reg_no){
-                $q->where('reg_no', '=', $reg_no);
-            })->whereDate('date', '>=', $start)->whereDate('date',   '<=', $end)->select('date as start', 'date as end','updated_at as title','color')->get();
+            $data = [];
+            if(Auth::user()->role == 1){
+                $data = Attendence::with('student')->whereHas('student', function($q) use ($reg_no){
+                    $q->where('reg_no', '=', $reg_no);
+                })->whereDate('date', '>=', $start)->whereDate('date',   '<=', $end)->select('date as start', 'date as end','updated_at as title','color')->get();
+            }elseif(Auth::user()->role == 2){
+                $data = Attendence::query()->whereHas('student', function($q) use ($reg_no){
+                    $q->where('reg_no', '=', $reg_no);
+                    $q->where('class_id',Auth::user()->teacherClass->class_id);
+                    $q->where('level_id',Auth::user()->teacherClass->level_id);
+                })->whereDate('date','>=', $start)->whereDate('date','<=',$end)->with(['student' => function($query) {
+                    $query->select('id','name');
+                }])->get();
+
+            }elseif(Auth::user()->role == 3){
+                $data = Attendence::with('student')->whereHas('student', function($q) use ($reg_no){
+                    $q->where('reg_no', '=', $reg_no);
+                    $q->where('id',Auth::user()->student->id);
+                })->whereDate('date', '>=', $start)->whereDate('date',   '<=', $end)->select('date as start', 'date as end','updated_at as title','color')->get();
+            }
+
 
 
             return Response::json($data);

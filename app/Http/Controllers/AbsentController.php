@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Absent;
 use App\Http\Requests\absentCreateValidationRequest;
 use App\Student;
+use Auth;
 use Illuminate\Http\Request;
 
 class AbsentController extends Controller
@@ -14,7 +15,7 @@ class AbsentController extends Controller
     {
         $students = Student::where('parent_id',Auth::user()->id)->get();
 
-        return view('absent',compact($students,'students'));
+        return view('absent',compact('students'));
     }
 
     public function store(absentCreateValidationRequest $request)
