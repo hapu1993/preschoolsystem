@@ -7,6 +7,7 @@ use App\Attendence;
 use App\Http\Requests\absentCreateValidationRequest;
 use App\Student;
 use Auth;
+use Response;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -27,8 +28,9 @@ class AttendenceController extends Controller
         foreach ($request['attend'] as $key=>$attend){
 
             $attend_status = $attend == 'yes' ? 1 : 0;
+            $attend_color = $attend == 'yes' ? '#eaf01f' : '#eb1c2a';
             $attend = Attendence::updateOrCreate(['student_id' => $key,'date' => $request['date']],
-                ['attend' => $attend_status]);
+                ['attend' => $attend_status,'color' => $attend_color]);
         }
         return response()->json(['status'=>'Succefully Submitted Attendence.']);
 //        return redirect()->route('attendence')->with('info', 'Something went wrong.. Try again..');
@@ -48,5 +50,22 @@ class AttendenceController extends Controller
 
 
         return $attendences;
+    }
+
+    public function loadAttendencebyReg()
+    {
+        if(request()->ajax())
+        {
+            $reg_no = request()->reg_no;
+            $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
+            $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
+            $data = Attendence::with('student')->whereHas('student', function($q) use ($reg_no){
+                $q->where('reg_no', '=', $reg_no);
+            })->whereDate('date', '>=', $start)->whereDate('date',   '<=', $end)->select('date as start', 'date as end','updated_at as title','color')->get();
+
+
+            return Response::json($data);
+        }
+//        return view('fullcalender');
     }
 }

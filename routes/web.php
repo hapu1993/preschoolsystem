@@ -30,5 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/load-attendence', 'AttendenceController@loadAttendence')->name('attendence.load')->middleware('attendence.record');
 
 
+    Route::get('/attendence-load-by-student', 'AttendenceController@loadAttendencebyReg')->name('attendence.load.reg')->middleware('attendence.record');
+
 });
 

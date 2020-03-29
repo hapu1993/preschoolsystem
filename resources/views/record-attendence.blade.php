@@ -52,13 +52,13 @@
 
                                                 <!-- Group of default radios - option 1 -->
                                                 <div class="custom-control custom-radio">
-                                                    <input type="radio" class="custom-control-input" id="example{{$student->id}}" name="attend[{{$student->id}}]" value="yes" {{($student->attendenceByDate(\Carbon\Carbon::today())->first()->attend == 1) ? 'checked' : ''}}>
+                                                    <input type="radio" class="custom-control-input" id="example{{$student->id}}" name="attend[{{$student->id}}]" value="yes" {{isset($student->attendenceByDate(\Carbon\Carbon::today())->first()->attend) ? ($student->attendenceByDate(\Carbon\Carbon::today())->first()->attend == 1) ? 'checked' : '' : ''}}>
                                                     <label class="custom-control-label" for="example{{$student->id}}">yes</label>
                                                 </div>
 
                                                 <!-- Group of default radios - option 2 -->
                                                 <div class="custom-control custom-radio">
-                                                    <input type="radio" class="custom-control-input" id="example{{$student->id}}{{$student->id}}" name="attend[{{$student->id}}]" value="no" {{($student->attendenceByDate(\Carbon\Carbon::today())->first()->attend == 0) ? 'checked' : ''}}>
+                                                    <input type="radio" class="custom-control-input" id="example{{$student->id}}{{$student->id}}" name="attend[{{$student->id}}]" value="no" {{isset($student->attendenceByDate(\Carbon\Carbon::today())->first()->attend) ? ($student->attendenceByDate(\Carbon\Carbon::today())->first()->attend == 0) ? 'checked' : '' : ''}}>
                                                     <label class="custom-control-label" for="example{{$student->id}}{{$student->id}}">No</label>
                                                 </div>
                                             </td>

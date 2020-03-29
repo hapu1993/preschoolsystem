@@ -14,7 +14,10 @@
     <link href="{{asset('css/mdb.min.css')}}" rel="stylesheet">
     <!-- Your custom styles (optional) -->
     <link href="{{asset('css/style.min.css')}}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+
     <link href="{{asset('css/custom.css')}}" rel="stylesheet">
+
     <style>
         body {
             background: linear-gradient(rgba(0,0,0,0.3),rgba(0,0,0,0.3)),url('./img/m687_1kx5_180307.jpg');
@@ -54,6 +57,8 @@
 <script type="text/javascript" src="{{asset('js/bootstrap.js')}}"></script>
 <!-- MDB core JavaScript -->
 <script type="text/javascript" src="{{asset('js/mdb.min.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js" integrity="sha256-4iQZ6BVL4qNKlQ27TExEhBN1HFPvAvAMbFavKKosSWQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <!-- Custom scripts -->
 <script>
@@ -67,7 +72,7 @@
 
 
 <script src="{{asset('js/custom.js')}}"></script>
-
+ @stack('moreJs')
 </body>
 
 </html>
