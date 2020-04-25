@@ -46,4 +46,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\TeacherClassMap','id','user_id');
     }
+    public function roles()
+    {
+        return $this->belongsTo('App\Role','role','id');
+    }
 }

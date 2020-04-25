@@ -24,10 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->role == 2){
-            $page_title = 'View Attendence';
-            return view('teacher-view',compact('page_title'));
-        }
-        return view('home');
+//        if(Auth::user()->role == 2){
+//            $page_title = 'View Attendence';
+//            return view('teacher-view',compact('page_title'));
+//        }
+        $page_title = 'Home';
+        return view('dashboard',compact('page_title'));
     }
 }

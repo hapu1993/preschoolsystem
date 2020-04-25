@@ -24,10 +24,10 @@ class absentCreateValidationRequest extends FormRequest
     public function rules()
     {
         return [
-//            'student_id'=>'required',
-//            'from'=>'required',
-//            'to'=>'required',
-//            'reason'=>'required',
+            'student_id'=>'required',
+            'from'=>'required',
+            'to'=>'required',
+            'reason'=>'required',
 
         ];
     }

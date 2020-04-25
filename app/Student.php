@@ -8,6 +8,7 @@ use Carbon\Carbon;
 class Student extends Model
 {
     protected $table = 'students';
+    protected $fillable = ['reg_no'];
 
 
     public function parent()

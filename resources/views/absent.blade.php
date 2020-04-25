@@ -30,7 +30,7 @@
                                 <label for="defaultFormCardNameEx" class="black-text font-weight-light">Register Number</label>
                                 <select class="form-control" id="exampleFormControlSelect1" name="student_id" style="display: block !important;">
                                     @foreach($students as $student)
-                                    <option value="{{$student->id}}">{{$student->name}} | {{$student->reg_no}}</option>
+                                        <option value="{{$student->id}}">{{$student->name}} | {{$student->reg_no}}</option>
                                     @endforeach
                                 </select>
                                 @error('student_id')

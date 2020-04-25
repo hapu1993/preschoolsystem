@@ -13,4 +13,9 @@ class TeacherClassMap extends Model
     {
         return $this->belongsTo('App\ClassMain','class_id','id');
     }
+
+    public function levelMain()
+    {
+        return $this->belongsTo('App\LevelMain','level_id','id');
+    }
 }

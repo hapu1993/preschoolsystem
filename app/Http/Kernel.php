@@ -2,7 +2,11 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\absentListMiddleware;
 use App\Http\Middleware\absentMiddleware;
+use App\Http\Middleware\AttendenceViewMiddleware;
+use App\Http\Middleware\CheckRole;
+use App\Http\Middleware\RegisterMiddleware;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -54,6 +58,8 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
+        'auth.register' => RegisterMiddleware::class,
+        'checkrole' => CheckRole::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
@@ -64,6 +70,8 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'absent'=> \App\Http\Middleware\absentMiddleware::class,
-        'attendence.record'=> \App\Http\Middleware\attendenceRecordMiddleware::class
+        'absent-list'=> absentListMiddleware::class,
+        'attendence.record'=> \App\Http\Middleware\attendenceRecordMiddleware::class,
+        'attendence.view'=> AttendenceViewMiddleware::class
     ];
 }

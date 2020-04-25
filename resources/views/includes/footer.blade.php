@@ -1,4 +1,4 @@
-<footer class="page-footer text-center text-md-left pt-4 blue-gradient fixed-bottom" style="background-color: #d500f9">
+<footer class="page-footer text-center text-md-left pt-4 blue-gradient" style="background-color: #d500f9;display: none">
 
     <!--Footer Links-->
     <div class="container-fluid" >

@@ -15,9 +15,15 @@
                     <input type="date" id="defaultFormCardEmailEx" class="form-control" onchange="loadStudents(this)" name="date" value="{{date('d-m-Y')}}">
                 </div>
 
+                <div class="com-md-4 pl-3">
+                    <label for="defaultFormCardEmailEx" class="grey-text font-weight-light"> <b style="color:white">Event</b>  </label>
+                    <input type="text" id="event" class="form-control" name="event" value="{{isset($event) ? $event : ''}}">
+                </div>
+
                 <div class="com-md-4"> </div>
 
                 <div class="com-md-4"> <b style="color:white"> Class : {{Auth::user()->teacherClass->classMain->name}} </b> </div>
+                <div class="com-md-4 pl-5"> <b style="color:white"> Class : {{Auth::user()->teacherClass->levelMain->name}} </b> </div>
 
             </div>
             <div class="row" style="display:flow-root">
@@ -95,7 +101,8 @@
                 success: function (data) {
                     console.log(data);
                     $("#loading").hide();
-                    $.each(data, function(k, v) {
+                    $("#event").val(data.event);
+                    $.each(data.attendences, function(k, v) {
                         //display the key and value pair
                         console.log(v.attend_arranged);
                         if(v.attend_arranged == 1){
