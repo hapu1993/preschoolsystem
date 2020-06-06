@@ -20,7 +20,7 @@
                                     </li>
 
                                 @endif
-                                @if(Auth::check() && Auth::user()->role==2 || Auth::check() && Auth::user()->role==1)
+                                @if(Auth::check() && Auth::user()->role==2 || Auth::check() && Auth::user()->role==1 || Auth::check() && Auth::user()->role==3)
                                 <li><a href="{{route('attendence.calender.list')}}" class="waves-effect">Attendence Calender View</a>
                                 </li>
                                 @endif
@@ -80,7 +80,16 @@
     @endif
         <!-- Breadcrumb-->
         <div class="breadcrumb-dn mr-auto">
-            <p class="h4 white-text">Pre-school Management System  {{Auth::check() ? '-'.Auth::user()->roles->name : ''}} {{isset($page_title) ? '-'.$page_title : ''}}</p>
+            @php
+            if (Auth::check()){
+              $role =  Auth::user()->roles->name;
+            if($role == 'Parent'){
+                $role = 'Student';
+            }
+            }
+
+            @endphp
+            <p class="h4 white-text">Pre-school Management System  {{Auth::check() ? '-'.$role : ''}} {{isset($page_title) ? '-'.$page_title : ''}}</p>
         </div>
         @if(Auth::check())
         <ul class="nav navbar-nav nav-flex-icons ml-auto">

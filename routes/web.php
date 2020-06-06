@@ -34,10 +34,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/record-attendence/store', 'AttendenceController@store')->name('attendence.store');
     Route::get('/load-attendence', 'AttendenceController@loadAttendence')->name('attendence.load')->middleware('attendence.record');
     Route::get('/attendence-table', 'AttendenceController@loadAttendenceTableView')->name('attendence.table.list')->middleware('attendence.view');
-    Route::get('/attendence-view', 'AttendenceController@attendenceViewCalender')->name('attendence.calender.list')->middleware('attendence.view');
+    Route::get('/attendence-view', 'AttendenceController@attendenceViewCalender')->name('attendence.calender.list')->middleware('attendence.calender.view');
 
 
-    Route::get('/attendence-load-by-student', 'AttendenceController@loadAttendencebyReg')->name('attendence.load.reg')->middleware('attendence.record');
+    Route::get('/attendence-load-by-student', 'AttendenceController@loadAttendencebyReg')->name('attendence.load.reg')->middleware('attendence.calender.view');
 
 });
 

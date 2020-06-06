@@ -95,7 +95,7 @@
             $('#dtBasicExample').find('tbody').empty();
             $.ajax({
                 type: 'GET', //THIS NEEDS TO BE GET
-                url: '/load-attendence',
+                url: 'load-attendence',
                 dataType: 'json',
                 data:{date:date},
                 success: function (data) {

@@ -35,7 +35,7 @@
                     @endif
                         <div class="col-md-3">
                             {{--<label for="defaultFormCardEmailEx" class="grey-text font-weight-light"> <b style="color:white">Date</b>  </label>--}}
-                            <input type="date" id="defaultFormCardEmailEx" class="form-control" onchange="loadStudents(this)" name="date" value="{{date('d-m-Y')}}" placeholder="Date">
+                            <input type="date" id="defaultFormCardEmailEx" class="form-control" onchange="loadStudents(this)" name="date" value="{{request()->date ? request()->date : date('d-m-Y')}}" placeholder="Date">
                         </div>
                     <div class="col-md-3">
                         <input type="text" id="defaultFormCardEmailEx2" class="form-control" name="student" placeholder="Student Name or Reg" value="{{request()->student}}">
@@ -106,6 +106,8 @@
     </tbody><br>
 <script>
     document.getElementById('defaultFormCardEmailEx').valueAsDate = new Date();
+
+
 </script>
 @endsection
 

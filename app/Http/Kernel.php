@@ -72,6 +72,7 @@ class Kernel extends HttpKernel
         'absent'=> \App\Http\Middleware\absentMiddleware::class,
         'absent-list'=> absentListMiddleware::class,
         'attendence.record'=> \App\Http\Middleware\attendenceRecordMiddleware::class,
-        'attendence.view'=> AttendenceViewMiddleware::class
+        'attendence.view'=> AttendenceViewMiddleware::class,
+        'attendence.calender.view'=> \App\Http\Middleware\attendenceCalenderView::class
     ];
 }

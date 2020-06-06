@@ -32,11 +32,11 @@ class AttendenceController extends Controller
         return view('record-attendence',compact('students','page_title','event'));
     }
 
-    public function store(absentCreateValidationRequest $request)
+    public function store(Request $request)
     {
         $request = $request->request->all();
 
-        if($request['event'] !== null || $request['event'] !== ''){
+        if($request['event'] !== null){
 
             $event = Event::whereDate('date',$request['date'])->where('class_id',Auth::user()->teacherClass->class_id)->where('level_id',Auth::user()->teacherClass->level_id)->first();
             if($event){
@@ -72,7 +72,7 @@ class AttendenceController extends Controller
     {
         $date = $request->date;
 
-        $data['attendences'] = Student::with('attendence')->get();
+        $data['attendences'] = Student::with('attendence')->where('class_id',Auth::user()->teacherClass->class_id)->where('level_id',Auth::user()->teacherClass->level_id)->get();
         if($data['attendences']){
             foreach ($data['attendences'] as $el){
                 $test = $el->attendenceByDate($date)->first();
@@ -93,38 +93,66 @@ class AttendenceController extends Controller
 
     public function loadAttendencebyReg()
     {
+
         if(request()->ajax())
         {
             $reg_no = request()->reg_no;
             $start = (!empty($_GET["start"])) ? ($_GET["start"]) : ('');
             $end = (!empty($_GET["end"])) ? ($_GET["end"]) : ('');
-            $data = [];
+
+
+
+//            ->whereDate('date', '>=', $start)->whereDate('date',   '<=', $end)
+
+
             if(Auth::user()->role == 1){
+                $data = [];
+                $student = Student::where(function ($q) use ($reg_no) {
+                    $q->where('name','LIKE','%'.$reg_no.'%')->orWhere('reg_no','LIKE','%'.$reg_no.'%');
+                })->get();
+                if(count($student) == 0){
+                    $data['status'] = false;
+                    return Response::json($data);
+                }
+
                 $data = Attendence::with('student')->whereHas('student', function($q) use ($reg_no){
                     $q->where(function ($q) use ($reg_no) {
                         $q->where('name','LIKE','%'.$reg_no.'%')->orWhere('reg_no','LIKE','%'.$reg_no.'%');
                     });
-                })->whereDate('date', '>=', $start)->whereDate('date',   '<=', $end)->select('date as start', 'date as end','updated_at as title','color')->get();
+                })->with(['student' => function($query) {
+                    $query->select('id','name');
+                }])->get();
             }elseif(Auth::user()->role == 2){
-                $data = Attendence::query()->whereHas('student', function($q) use ($reg_no){
+                $data = [];
+                $student = Student::where(function ($q) use ($reg_no) {
+                    $q->where('name','LIKE','%'.$reg_no.'%')->orWhere('reg_no','LIKE','%'.$reg_no.'%');
+                })->where('class_id',Auth::user()->teacherClass->class_id)->where('level_id',Auth::user()->teacherClass->level_id)->get();
+                if(count($student) == 0){
+                    $data['status'] = false;
+                    return Response::json($data);
+                }
+
+                $data = Attendence::whereHas('student', function($q) use ($reg_no){
                     $q->where(function ($q) use ($reg_no) {
                         $q->where('name','LIKE','%'.$reg_no.'%')->orWhere('reg_no','LIKE','%'.$reg_no.'%');
                     });
                     $q->where('class_id',Auth::user()->teacherClass->class_id);
                     $q->where('level_id',Auth::user()->teacherClass->level_id);
-                })->whereDate('date','>=', $start)->whereDate('date','<=',$end)->with(['student' => function($query) {
+                })->with(['student' => function($query) {
                     $query->select('id','name');
                 }])->get();
 
             }elseif(Auth::user()->role == 3){
-                $data = Attendence::with('student')->whereHas('student', function($q) use ($reg_no){
-                    $q->where('reg_no', '=', $reg_no);
-                    $q->where('id',Auth::user()->student->id);
-                })->whereDate('date', '>=', $start)->whereDate('date',   '<=', $end)->select('date as start', 'date as end','updated_at as title','color')->get();
+
+                $data = [];
+                $students = Auth::user()->students->pluck('id')->toArray();
+                $data = Attendence::with('student')->whereHas('student', function($q) use ($students){
+                        $q->whereIn('id',$students);
+                    })->with(['student' => function($query) {
+                        $query->select('id','name');
+                    }])->get();
+
             }
-
-
-
             return Response::json($data);
         }
 //        return view('fullcalender');
@@ -140,6 +168,7 @@ class AttendenceController extends Controller
         $student = $request->student;
         $classes = ClassMain::get();
         $levels = LevelMain::get();
+
         if(Auth::user()->role == 2){
             $attendences = Student::with('attendence')->where('class_id',Auth::user()->teacherClass->class_id)->where('level_id',Auth::user()->teacherClass->level_id);
         }else{

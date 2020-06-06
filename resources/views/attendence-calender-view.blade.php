@@ -10,11 +10,15 @@
                 <div class="col-md-6">
                     <!-- First name -->
                     <div class="row">
-                        <input type="text" id="RegNo" class="form-control" placeholder="Registration Number">
+                        <input type="{{Auth::user()->role == 3 ? 'hidden' : 'text'}}" id="RegNo" class="form-control" placeholder="Registration Number" value="{{Auth::user()->id}}">
                     </div>
-                    <div class="row">
-                        <button type="button" class="btn btn-primary" style="width:100%" onclick="searchAttendence()">Search</button>
-                    </div>
+                    @if(Auth::user()->role !== 3)
+                        <div class="row">
+                            <button type="button" class="btn btn-primary" style="width:100%" id="searchAttendence" onclick="searchAttendence()" >Search</button>
+                        </div>
+
+                        @endif
+
                 </div>
                 <div class="col-md-6">
                     <!-- First name -->
@@ -39,6 +43,14 @@
 
 @endsection
 @push('moreJs')
+
+@if(Auth::user()->role == 3)
+<script type="text/javascript">
+    $(document).ready(function(){
+        searchAttendence();
+    });
+</script>
+@endif
 <script>
 
     function searchAttendence() {
@@ -72,7 +84,16 @@
 
                     },success: function (data) {
 
-                        if(data.length == 0){
+//                        if(data.length == 0){
+//
+//                            Swal.fire(
+//                                'Student cant find.',
+//                                'Student cant find.',
+//                                'error'
+//                            );
+//
+//                        }
+                        if(data.status == false){
 
                             Swal.fire(
                                 'Student cant find.',
