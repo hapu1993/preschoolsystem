@@ -10,7 +10,7 @@
                 <div class="col-md-6">
                     <!-- First name -->
                     <div class="row">
-                        <input type="{{Auth::user()->role == 3 ? 'hidden' : 'text'}}" id="RegNo" class="form-control" placeholder="Registration Number" value="{{Auth::user()->id}}">
+                        <input type="{{Auth::user()->role == 3 ? 'hidden' : 'text'}}" id="RegNo" class="form-control" placeholder="Registration Number" value="{{Auth::user()->role == 3 ? Auth::user()->id : ''}}">
                     </div>
                     @if(Auth::user()->role !== 3)
                         <div class="row">
