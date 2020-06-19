@@ -78,6 +78,7 @@
                                         <tbody>
                                         @foreach($absent_letters as $absent_letter)
                                             <tr>
+
                                                 <td>{{$absent_letter->id}}</td>
                                                 <td>{{$absent_letter->reg_no}}</td>
                                                 <td>{{$absent_letter->student->name}}</td>

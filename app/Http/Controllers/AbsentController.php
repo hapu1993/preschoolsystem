@@ -24,7 +24,7 @@ class AbsentController extends Controller
     public function store(absentCreateValidationRequest $request)
     {
         $request = $request->request->all();
-        $request['reg_no'] = Student::find($request['student_id']);
+        $request['reg_no'] = Student::find($request['student_id'])->reg_no;
         $new_absent = Absent::create($request);
 
         return redirect()->back()->with('success', 'IT WORKS!');
