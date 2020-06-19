@@ -10,6 +10,7 @@
                 <div class="col-md-6">
                     <!-- First name -->
                     <div class="row">
+
                         <input type="{{Auth::user()->role == 3 ? 'hidden' : 'text'}}" id="RegNo" class="form-control" placeholder="Registration Number" value="{{Auth::user()->role == 3 ? Auth::user()->id : ''}}">
                     </div>
                     @if(Auth::user()->role !== 3)
@@ -102,7 +103,11 @@
                             );
 
                         }else{
-                            $('#studentName').html(data[0].student.name);
+
+                            if(data.length){
+                                $('#studentName').html(data[0].student.name);
+                            }
+
                             $('#calenderDiv').show();
                         }
 

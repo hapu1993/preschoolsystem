@@ -152,6 +152,7 @@ class AttendenceController extends Controller
                         $query->select('id','name');
                     }])->get();
 
+
             }
             return Response::json($data);
         }
