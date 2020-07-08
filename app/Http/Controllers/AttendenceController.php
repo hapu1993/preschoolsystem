@@ -178,7 +178,7 @@ class AttendenceController extends Controller
                 $attendences = $attendences->where('class_id',$class);
             }
             if($level){
-                $attendences = $attendences->where('class_id',$class);
+                $attendences = $attendences->where('level_id',$level);
             }
 
         }
