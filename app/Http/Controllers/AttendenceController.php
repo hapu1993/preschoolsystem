@@ -10,6 +10,7 @@ use App\Http\Requests\absentCreateValidationRequest;
 use App\LevelMain;
 use App\Student;
 use Auth;
+use Nexmo\Laravel\Facade\Nexmo;
 use Response;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -58,6 +59,12 @@ class AttendenceController extends Controller
 
 
         foreach ($request['attend'] as $key=>$attend){
+//            call for sms gateway
+            Nexmo::message()->send([
+                'to'   => '94715738344',
+                'from' => '16105552344',
+                'text' => 'Attendence Test.'
+            ]);
 
             $attend_status = $attend == 'yes' ? 1 : 0;
             $attend_color = $attend == 'yes' ? '#eaf01f' : '#eb1c2a';
